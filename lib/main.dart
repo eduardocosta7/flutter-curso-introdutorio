@@ -10,174 +10,129 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
-        home: Container(
-          color: Colors.white,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Stack(
-                alignment: AlignmentDirectional.center,
-                children: [
-                  Container(
-                    color: Colors.redAccent,
-                    width: 200,
-                    height: 200,
-                  ),
-                  Container(
-                    color: Colors.blueAccent,
-                    width: 100,
-                    height: 100,
-                  )
-                ],
-              ),
-              Stack(
-                alignment: AlignmentDirectional.center,
-                children: [
-                  Container(
-                    color: Colors.blueAccent,
-                    width: 200,
-                    height: 200,
-                  ),
-                  Container(
-                    color: Colors.redAccent,
-                    width: 100,
-                    height: 100,
-                  )
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    color: Colors.cyanAccent,
-                    height: 100,
-                    width: 100,
-                  ),
-                  Container(
-                    color: Colors.pinkAccent,
-                    height: 100,
-                    width: 100,
-                  ),
-                  Container(
-                    color: Colors.purpleAccent,
-                    height: 100,
-                    width: 100,
-                  )
-                ],
-              ),
-              Container(
-                color: Colors.amberAccent,
-                height: 30,
-                width: 300,
-                child: const Text(
-                  'Diamante Amarelo',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              ElevatedButton(
-                  onPressed: () {
-                    print('Você apertou o botão');
-                  },
-                  child: const Text('Aperte o botão!'),)
-            ],
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        primarySwatch: Colors.blue,
+        // useMaterial3: true,
+      ),
+      home: Scaffold(
+        appBar: AppBar(
+          leading: Container(),
+          title: const Text(
+            'Tarefas',
+            style: TextStyle(color: Colors.white),
           ),
-        ));
+          backgroundColor: Colors.blue,
+        ),
+        body: ListView(
+          children: const [
+            Task('Aprender Flutter'),
+            Task('Treinar'),
+            Task('Trabalhar'),
+            Task('Investir'),
+            Task('Investir muito mesmo vamos estourar o texto'),
+            Task('Investir'),
+            Task('Investir'),
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {},
+        ),
+      ),
+    );
   }
 }
 
-class ChallengeOne extends StatelessWidget {
-  const ChallengeOne({super.key});
+class Task extends StatefulWidget {
+  final String nome;
+
+  const Task(this.nome, {super.key});
+
+  @override
+  State<Task> createState() => _TaskState();
+}
+
+class _TaskState extends State<Task> {
+  int nivel = 0;
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Desafio 1',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigoAccent),
-        useMaterial3: true
-      ),
-      home: Container(
-        color: Colors.black,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  color: Colors.redAccent,
-                  width: 100,
-                  height: 100,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Stack(
+        children: [
+          Container(
+            color: Colors.blue,
+            height: 140,
+          ),
+          Column(
+            children: [
+              Container(
+                color: Colors.white,
+                height: 100,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      color: Colors.black26,
+                      width: 72,
+                      height: 100,
+                    ),
+                    SizedBox(
+                      width: 200,
+                      child: Text(
+                        widget.nome,
+                        style: const TextStyle(fontSize: 24),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    Container(
+                      width: 64,
+                      height: 64,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              nivel++;
+                            });
+                          },
+                          child:
+                            const Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(Icons.arrow_drop_up),
+                                Text('Up', style: TextStyle(fontSize: 12),)
+                              ],
+                            )),
+                    )
+                  ],
                 ),
-                Container(
-                  color: Colors.orangeAccent,
-                  width: 100,
-                  height: 100,
-                ),
-                Container(
-                  color: Colors.yellowAccent,
-                  width: 100,
-                  height: 100,
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  color: Colors.lightGreenAccent,
-                  width: 100,
-                  height: 100,
-                ),
-                Container(
-                  color: Colors.lightBlueAccent,
-                  width: 100,
-                  height: 100,
-                ),
-                Container(
-                  color: Colors.blueAccent,
-                  width: 100,
-                  height: 100,
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  color: Colors.purpleAccent,
-                  width: 100,
-                  height: 100,
-                ),
-                Container(
-                  color: Colors.pinkAccent,
-                  width: 100,
-                  height: 100,
-                ),
-                Container(
-                  color: Colors.white,
-                  width: 100,
-                  height: 100,
-                ),
-              ],
-            )
-          ],
-        ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SizedBox(
+                      width: 200,
+                      child: LinearProgressIndicator(
+                        value: nivel / 10,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text('Nivel $nivel',
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 16)),
+                  ),
+                ],
+              ),
+            ],
+          )
+        ],
       ),
     );
   }
