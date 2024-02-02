@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 
 void main() {
@@ -29,9 +27,16 @@ class MyApp extends StatelessWidget {
         ),
         body: ListView(
           children: const [
-            Task('Aprender Flutter', 'https://pbs.twimg.com/media/Eu7m692XIAEvxxP?format=png&name=large', 4),
-            Task('Treinar', 'https://manhattanmentalhealthcounseling.com/wp-content/uploads/2019/06/Top-5-Scientific-Findings-on-MeditationMindfulness-881x710.jpeg', 2),
-            Task('Trabalhar', 'https://i.ibb.co/tB29PZB/kako-epifania-2022-2-c-pia.jpg', 3),
+            Task(
+                'Aprender Flutter',
+                'https://pbs.twimg.com/media/Eu7m692XIAEvxxP?format=png&name=large',
+                4),
+            Task(
+                'Treinar',
+                'https://manhattanmentalhealthcounseling.com/wp-content/uploads/2019/06/Top-5-Scientific-Findings-on-MeditationMindfulness-881x710.jpeg',
+                2),
+            Task('Trabalhar',
+                'https://i.ibb.co/tB29PZB/kako-epifania-2022-2-c-pia.jpg', 3),
             Task('Investir', '', 5),
             Task('Investir muito mesmo vamos estourar o texto', '', 1)
           ],
@@ -65,22 +70,32 @@ class _TaskState extends State<Task> {
       child: Stack(
         children: [
           Container(
-            color: Colors.blue,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(6),
+              color: Colors.blue,
+            ),
             height: 140,
           ),
           Column(
             children: [
               Container(
-                color: Colors.white,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6),
+                    color: Colors.white),
                 height: 100,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      color: Colors.black26,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6),
+                        color: Colors.black26,
+                      ),
                       width: 72,
                       height: 100,
-                      child: Image.network(widget.foto, fit: BoxFit.cover),
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(6),
+                          child: Image.network(widget.foto, fit: BoxFit.cover)),
                     ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -96,11 +111,41 @@ class _TaskState extends State<Task> {
                         ),
                         Row(
                           children: [
-                            Icon(Icons.star, color: (widget.dificuldade >= 1) ? Colors.blue : Colors.blue[100], size: 15,),
-                            Icon(Icons.star, color: (widget.dificuldade >= 2) ? Colors.blue : Colors.blue[100], size: 15,),
-                            Icon(Icons.star, color: (widget.dificuldade >= 3) ? Colors.blue : Colors.blue[100], size: 15,),
-                            Icon(Icons.star, color: (widget.dificuldade >= 4) ? Colors.blue : Colors.blue[100], size: 15,),
-                            Icon(Icons.star, color: (widget.dificuldade >= 5) ? Colors.blue : Colors.blue[100], size: 15,),
+                            Icon(
+                              Icons.star,
+                              color: (widget.dificuldade >= 1)
+                                  ? Colors.blue
+                                  : Colors.blue[100],
+                              size: 15,
+                            ),
+                            Icon(
+                              Icons.star,
+                              color: (widget.dificuldade >= 2)
+                                  ? Colors.blue
+                                  : Colors.blue[100],
+                              size: 15,
+                            ),
+                            Icon(
+                              Icons.star,
+                              color: (widget.dificuldade >= 3)
+                                  ? Colors.blue
+                                  : Colors.blue[100],
+                              size: 15,
+                            ),
+                            Icon(
+                              Icons.star,
+                              color: (widget.dificuldade >= 4)
+                                  ? Colors.blue
+                                  : Colors.blue[100],
+                              size: 15,
+                            ),
+                            Icon(
+                              Icons.star,
+                              color: (widget.dificuldade >= 5)
+                                  ? Colors.blue
+                                  : Colors.blue[100],
+                              size: 15,
+                            ),
                           ],
                         )
                       ],
@@ -114,15 +159,17 @@ class _TaskState extends State<Task> {
                               nivel++;
                             });
                           },
-                          child:
-                            const Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Icon(Icons.arrow_drop_up),
-                                Text('Up', style: TextStyle(fontSize: 12),)
-                              ],
-                            )),
+                          child: const Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(Icons.arrow_drop_up),
+                              Text(
+                                'Up',
+                                style: TextStyle(fontSize: 12),
+                              )
+                            ],
+                          )),
                     )
                   ],
                 ),
@@ -135,7 +182,9 @@ class _TaskState extends State<Task> {
                     child: SizedBox(
                       width: 200,
                       child: LinearProgressIndicator(
-                        value: (widget.dificuldade > 0) ? (nivel / widget.dificuldade) / 10 : 1,
+                        value: (widget.dificuldade > 0)
+                            ? (nivel / widget.dificuldade) / 10
+                            : 1,
                         color: Colors.white,
                       ),
                     ),
