@@ -65,7 +65,7 @@ class _TaskState extends State<Task> {
                         Difficulty(difficultyLevel: widget.dificuldade)
                       ],
                     ),
-                    Container(
+                    SizedBox(
                       width: 64,
                       height: 64,
                       child: ElevatedButton(

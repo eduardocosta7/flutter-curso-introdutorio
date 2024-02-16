@@ -1,4 +1,4 @@
-import 'package:curso_flutter_introducao/task.dart';
+import 'package:curso_flutter_introducao/components/task.dart';
 import 'package:flutter/material.dart';
 
 class InitialScreen extends StatefulWidget {
