@@ -29,14 +29,14 @@ class _InitialScreenState extends State<InitialScreen> {
           children: const [
             Task(
                 'Aprender Flutter',
-                'https://pbs.twimg.com/media/Eu7m692XIAEvxxP?format=png&name=large',
+                'assets/images/dash.png',
                 4),
             Task(
                 'Treinar',
-                'https://manhattanmentalhealthcounseling.com/wp-content/uploads/2019/06/Top-5-Scientific-Findings-on-MeditationMindfulness-881x710.jpeg',
+                'assets/images/meditando.jpeg',
                 2),
             Task('Trabalhar',
-                'https://i.ibb.co/tB29PZB/kako-epifania-2022-2-c-pia.jpg', 3),
+                'assets/images/player.jpg', 3),
             Task('Investir', '', 5),
             Task('Investir muito mesmo vamos estourar o texto', '', 1)
           ],
