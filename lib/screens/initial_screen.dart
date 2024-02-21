@@ -26,7 +26,7 @@ class _InitialScreenState extends State<InitialScreen> {
         opacity: isOpacidade ? 1 : 0,
         duration: const Duration(milliseconds: 800),
         child: ListView(
-          children: const [
+          children: [
             Task(
                 'Aprender Flutter',
                 'assets/images/dash.png',

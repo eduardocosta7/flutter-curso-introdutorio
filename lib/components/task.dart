@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
 import 'difficult.dart';
+import 'dart:math' as math;
 
 class Task extends StatefulWidget {
   final String nome;
   final String foto;
-  final int dificuldade;
+  int dificuldade;
 
-  const Task(this.nome, this.foto, this.dificuldade, {super.key});
+  Task(this.nome, this.foto, this.dificuldade, {super.key});
 
   @override
   State<Task> createState() => _TaskState();
@@ -15,6 +16,7 @@ class Task extends StatefulWidget {
 
 class _TaskState extends State<Task> {
   int nivel = 0;
+  Color color = Colors.blue;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class _TaskState extends State<Task> {
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(6),
-              color: Colors.blue,
+              color: color,
             ),
             height: 140,
           ),
@@ -72,6 +74,10 @@ class _TaskState extends State<Task> {
                           onPressed: () {
                             setState(() {
                               nivel++;
+                             if (nivel >= widget.dificuldade) {
+                               widget.dificuldade = widget.dificuldade * 3;
+                               color = Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
+                             }
                             });
                           },
                           child: const Column(
@@ -98,7 +104,7 @@ class _TaskState extends State<Task> {
                       width: 200,
                       child: LinearProgressIndicator(
                         value: (widget.dificuldade > 0)
-                            ? (nivel / widget.dificuldade) / 10
+                            ? (nivel / widget.dificuldade)
                             : 1,
                         color: Colors.white,
                       ),
