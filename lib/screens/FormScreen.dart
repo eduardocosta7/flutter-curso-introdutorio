@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
 
-class FormScreen extends StatelessWidget {
+class FormScreen extends StatefulWidget {
   const FormScreen({super.key});
+
+  @override
+  State<FormScreen> createState() => _FormScreenState();
+}
+
+class _FormScreenState extends State<FormScreen> {
+  TextEditingController nomeController = TextEditingController();
+  TextEditingController difficultyController = TextEditingController();
+  TextEditingController imageController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Nova Tarefa"),
+        backgroundColor: Colors.blueAccent,
       ),
       body: Center(
         child: Container(
@@ -17,14 +27,78 @@ class FormScreen extends StatelessWidget {
               color: Colors.black12,
               borderRadius: BorderRadius.circular(10),
               border: Border.all(color: Colors.black, width: 3)),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextFormField(
-              controller: TextEditingController(),
-              textAlign: TextAlign.start,
-              decoration: const InputDecoration(
-                  fillColor: Colors.white70, filled: true, hintText: "Nome"),
-            ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  controller: nomeController,
+                  textAlign: TextAlign.start,
+                  decoration: const InputDecoration(
+                    fillColor: Colors.white70,
+                    filled: true,
+                    hintText: "Nome",
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  controller: difficultyController,
+                  textAlign: TextAlign.start,
+                  decoration: const InputDecoration(
+                    fillColor: Colors.white70,
+                    filled: true,
+                    hintText: "Dificuldade",
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  onChanged: (text) {
+                    setState(() {
+                      imageController.text = text;
+                    });
+                  },
+                  controller: imageController,
+                  textAlign: TextAlign.start,
+                  decoration: const InputDecoration(
+                    fillColor: Colors.white70,
+                    filled: true,
+                    hintText: "Imagem",
+                  ),
+                ),
+              ),
+              Container(
+                height: 100,
+                width: 72,
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(width: 2, color: Colors.blue),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.network(
+                    imageController.text,
+                    errorBuilder: (BuildContext context, Object exception,
+                        StackTrace? stackTrace) {
+                      return Image.asset('assets/images/nophoto.png');
+                    },
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  print(imageController.text);
+                },
+                child: const Text('Adicionar!'),
+              ),
+            ],
           ),
         ),
       ),
