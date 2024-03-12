@@ -1,7 +1,7 @@
 import 'package:curso_flutter_introducao/screens/initial_screen.dart';
 import 'package:flutter/material.dart';
 
-import 'screens/FormScreen.dart';
+import 'screens/form_screen.dart';
 
 void main() {
   runApp(const MyApp());
