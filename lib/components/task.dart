@@ -4,18 +4,18 @@ import 'difficult.dart';
 import 'dart:math' as math;
 
 class Task extends StatefulWidget {
-  final String nome;
-  final String foto;
-  int dificuldade;
+  final String name;
+  final String photo;
+  int difficulty;
 
-  Task(this.nome, this.foto, this.dificuldade, {super.key});
+  Task(this.name, this.photo, this.difficulty, {super.key});
 
   @override
   State<Task> createState() => _TaskState();
 }
 
 class _TaskState extends State<Task> {
-  int nivel = 0;
+  int level = 0;
   Color color = Colors.blue;
 
   @override
@@ -50,7 +50,7 @@ class _TaskState extends State<Task> {
                       height: 100,
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(6),
-                          child: Image.asset(widget.foto, fit: BoxFit.cover)),
+                          child: Image.asset(widget.photo, fit: BoxFit.cover)),
                     ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -59,12 +59,12 @@ class _TaskState extends State<Task> {
                         SizedBox(
                           width: 200,
                           child: Text(
-                            widget.nome,
+                            widget.name,
                             style: const TextStyle(fontSize: 24),
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        Difficulty(difficultyLevel: widget.dificuldade)
+                        Difficulty(difficultyLevel: widget.difficulty)
                       ],
                     ),
                     SizedBox(
@@ -73,9 +73,9 @@ class _TaskState extends State<Task> {
                       child: ElevatedButton(
                           onPressed: () {
                             setState(() {
-                              nivel++;
-                             if (nivel >= widget.dificuldade) {
-                               widget.dificuldade = widget.dificuldade * 3;
+                              level++;
+                             if (level >= widget.difficulty) {
+                               widget.difficulty = widget.difficulty * 3;
                                color = Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
                              }
                             });
@@ -103,8 +103,8 @@ class _TaskState extends State<Task> {
                     child: SizedBox(
                       width: 200,
                       child: LinearProgressIndicator(
-                        value: (widget.dificuldade > 0)
-                            ? (nivel / widget.dificuldade)
+                        value: (widget.difficulty > 0)
+                            ? (level / widget.difficulty)
                             : 1,
                         color: Colors.white,
                       ),
@@ -112,7 +112,7 @@ class _TaskState extends State<Task> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text('Nivel $nivel',
+                    child: Text('Nivel $level',
                         style:
                             const TextStyle(color: Colors.white, fontSize: 16)),
                   ),

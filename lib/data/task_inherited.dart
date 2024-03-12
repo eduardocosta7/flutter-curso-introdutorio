@@ -2,12 +2,12 @@ import 'package:curso_flutter_introducao/components/task.dart';
 import 'package:flutter/material.dart';
 
 class TaskInherited extends InheritedWidget {
-  const TaskInherited({
+  TaskInherited({
     super.key,
     required Widget child,
   }) : super(child: child);
 
-  static List<Task> lista = [
+  final List<Task> taskList = [
     Task('Aprender Flutter', 'assets/images/dash.png', 4),
     Task('Treinar', 'assets/images/meditando.jpeg', 2),
     Task('Trabalhar', 'assets/images/player.jpg', 3),
@@ -15,20 +15,19 @@ class TaskInherited extends InheritedWidget {
     Task('Investir muito mesmo vamos estourar o texto', '', 1)
   ];
 
-  void NewTask(String name, String photo, int difficulty) {
-    lista.add(Task(name, photo, difficulty));
+  void newTask(String name, String photo, int difficulty) {
+    taskList.add(Task(name, photo, difficulty));
   }
 
   static TaskInherited of(BuildContext context) {
-    final ? result = context.dependOnInheritedWidgetOfExactType<>();
+    final TaskInherited? result =
+        context.dependOnInheritedWidgetOfExactType<TaskInherited>();
     assert(result != null, 'No  found in context');
-    return
-    result
-    !;
+    return result!;
   }
 
   @override
-  bool updateShouldNotify(TaskInherited old) {
-    return;
+  bool updateShouldNotify(TaskInherited oldWidget) {
+    return oldWidget.taskList.length != taskList.length;
   }
 }
