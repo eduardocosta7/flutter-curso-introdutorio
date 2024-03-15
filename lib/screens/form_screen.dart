@@ -1,16 +1,19 @@
+import 'package:curso_flutter_introducao/data/task_inherited.dart';
 import 'package:flutter/material.dart';
 
 class FormScreen extends StatefulWidget {
-  const FormScreen({super.key});
+  const FormScreen({super.key, required this.taskContext});
+
+  final BuildContext taskContext;
 
   @override
   State<FormScreen> createState() => _FormScreenState();
 }
 
 class _FormScreenState extends State<FormScreen> {
-  TextEditingController nomeController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
   TextEditingController difficultyController = TextEditingController();
-  TextEditingController imageController = TextEditingController();
+  TextEditingController photoController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +49,7 @@ class _FormScreenState extends State<FormScreen> {
                         return null;
                       },
                       keyboardType: TextInputType.name,
-                      controller: nomeController,
+                      controller: nameController,
                       textAlign: TextAlign.start,
                       decoration: const InputDecoration(
                         fillColor: Colors.white70,
@@ -88,10 +91,10 @@ class _FormScreenState extends State<FormScreen> {
                       keyboardType: TextInputType.url,
                       onChanged: (text) {
                         setState(() {
-                          imageController.text = text;
+                          photoController.text = text;
                         });
                       },
-                      controller: imageController,
+                      controller: photoController,
                       textAlign: TextAlign.start,
                       decoration: const InputDecoration(
                         fillColor: Colors.white70,
@@ -111,7 +114,7 @@ class _FormScreenState extends State<FormScreen> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: Image.network(
-                        imageController.text,
+                        photoController.text,
                         errorBuilder: (BuildContext context, Object exception,
                             StackTrace? stackTrace) {
                           return Image.asset('assets/images/nophoto.png');
@@ -123,13 +126,15 @@ class _FormScreenState extends State<FormScreen> {
                   ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        print(imageController.text);
+                        TaskInherited.of(widget.taskContext).newTask(
+                            nameController.text,
+                            photoController.text,
+                            int.parse(difficultyController.text));
                         ScaffoldMessenger.maybeOf(context)?.showSnackBar(
                           const SnackBar(
-                            content: Text('Printando nova tarefa'),
+                            content: Text('Criando uma nova tarefa'),
                           ),
                         );
-
                         Navigator.pop(context);
                       }
                     },
