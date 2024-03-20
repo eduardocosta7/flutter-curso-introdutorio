@@ -11,12 +11,13 @@ class Task extends StatefulWidget {
 
   Task(this.name, this.photo, this.difficulty, {super.key});
 
+  int level = 0;
+
   @override
   State<Task> createState() => _TaskState();
 }
 
 class _TaskState extends State<Task> {
-  int level = 0;
   Color color = Colors.blue;
 
   bool assetOrNetwork() {
@@ -65,6 +66,7 @@ class _TaskState extends State<Task> {
                                 )
                               : Image.network(
                                   widget.photo,
+                                  fit: BoxFit.cover,
                                 )),
                     ),
                     Column(
@@ -88,8 +90,8 @@ class _TaskState extends State<Task> {
                       child: ElevatedButton(
                           onPressed: () {
                             setState(() {
-                              level++;
-                              if (level >= widget.difficulty) {
+                              widget.level++;
+                              if (widget.level >= widget.difficulty) {
                                 widget.difficulty = widget.difficulty * 3;
                                 color = Color(
                                         (math.Random().nextDouble() * 0xFFFFFF)
@@ -122,7 +124,7 @@ class _TaskState extends State<Task> {
                       width: 200,
                       child: LinearProgressIndicator(
                         value: (widget.difficulty > 0)
-                            ? (level / widget.difficulty)
+                            ? (widget.level / widget.difficulty)
                             : 1,
                         color: Colors.white,
                       ),
@@ -130,7 +132,7 @@ class _TaskState extends State<Task> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text('Nivel $level',
+                    child: Text('Nivel ${widget.level}',
                         style:
                             const TextStyle(color: Colors.white, fontSize: 16)),
                   ),

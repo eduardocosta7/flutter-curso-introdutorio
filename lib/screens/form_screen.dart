@@ -43,7 +43,7 @@ class _FormScreenState extends State<FormScreen> {
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
                       validator: (value) {
-                        if (value!.isEmpty) {
+                        if (valueValidator(value)) {
                           return 'Insira um nome para a tarefa!';
                         }
                         return null;
@@ -62,9 +62,7 @@ class _FormScreenState extends State<FormScreen> {
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
                       validator: (value) {
-                        if (value!.isEmpty ||
-                            int.parse(value) > 5 ||
-                            int.parse(value) < 1) {
+                        if (difficultyValidador(value)) {
                           return 'Insira um valor entre 1 e 5.';
                         }
                         return null;
@@ -83,7 +81,7 @@ class _FormScreenState extends State<FormScreen> {
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
                       validator: (value) {
-                        if (value!.isEmpty) {
+                        if (valueValidator(value)) {
                           return 'Insira um url de imagem!';
                         }
                         return null;
@@ -147,5 +145,22 @@ class _FormScreenState extends State<FormScreen> {
         ),
       ),
     );
+  }
+
+  bool difficultyValidador(String? value) {
+    if (value != null && value.isNotEmpty) {
+      if (int.parse(value) > 1 && int.parse(value) < 5) {
+        return true;
+      }
+      return false;
+    }
+    return false;
+  }
+
+  bool valueValidator(String? value) {
+    if (value != null && value.isNotEmpty) {
+      return true;
+    }
+    return false;
   }
 }
