@@ -1,7 +1,8 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 import 'difficult.dart';
-import 'dart:math' as math;
 
 class Task extends StatefulWidget {
   final String name;
@@ -17,6 +18,13 @@ class Task extends StatefulWidget {
 class _TaskState extends State<Task> {
   int level = 0;
   Color color = Colors.blue;
+
+  bool assetOrNetwork() {
+    if (widget.photo.contains('http')) {
+      return false;
+    }
+    return true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +58,14 @@ class _TaskState extends State<Task> {
                       height: 100,
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(6),
-                          child: Image.asset(widget.photo, fit: BoxFit.cover)),
+                          child: assetOrNetwork()
+                              ? Image.asset(
+                                  widget.photo,
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.network(
+                                  widget.photo,
+                                )),
                     ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -74,10 +89,13 @@ class _TaskState extends State<Task> {
                           onPressed: () {
                             setState(() {
                               level++;
-                             if (level >= widget.difficulty) {
-                               widget.difficulty = widget.difficulty * 3;
-                               color = Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
-                             }
+                              if (level >= widget.difficulty) {
+                                widget.difficulty = widget.difficulty * 3;
+                                color = Color(
+                                        (math.Random().nextDouble() * 0xFFFFFF)
+                                            .toInt())
+                                    .withOpacity(1.0);
+                              }
                             });
                           },
                           child: const Column(
