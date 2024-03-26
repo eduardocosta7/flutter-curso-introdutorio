@@ -2,6 +2,8 @@ import 'package:curso_flutter_introducao/components/task.dart';
 import 'package:flutter/material.dart';
 
 class TaskInherited extends InheritedWidget {
+  double totalLevel = 0;
+
   TaskInherited({
     super.key,
     required Widget child,
@@ -28,5 +30,11 @@ class TaskInherited extends InheritedWidget {
   @override
   bool updateShouldNotify(TaskInherited oldWidget) {
     return oldWidget.taskList.length != taskList.length;
+  }
+
+  double upTotalLevel () {
+    for (var element in taskList) { totalLevel += element.level * 0.10; }
+    print(totalLevel);
+    return totalLevel;
   }
 }

@@ -93,9 +93,8 @@ class _TaskState extends State<Task> {
                               widget.level++;
                               if (widget.level >= widget.difficulty) {
                                 widget.difficulty = widget.difficulty * 3;
-                                color = Color(
-                                        (math.Random().nextDouble() * 0xFFFFFF)
-                                            .toInt())
+                                color =
+                                    Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
                                     .withOpacity(1.0);
                               }
                             });
