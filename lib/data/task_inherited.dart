@@ -33,8 +33,11 @@ class TaskInherited extends InheritedWidget {
   }
 
   double upTotalLevel () {
-    for (var element in taskList) { totalLevel += element.level * 0.10; }
-    print(totalLevel);
+    double total = 0;
+    for (var element in taskList) {
+      total += (element.level * element.difficulty / 1000) * taskList.length;
+      totalLevel = total;
+    }
     return totalLevel;
   }
 }

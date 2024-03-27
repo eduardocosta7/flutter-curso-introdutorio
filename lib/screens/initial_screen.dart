@@ -24,10 +24,15 @@ class _InitialScreenState extends State<InitialScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Padding(
-                  padding: EdgeInsets.only(left: 50.0),
+                  padding: EdgeInsets.only(
+                    left: 50.0,
+                  ),
                   child: Text(
                     'Tarefas',
-                    style: TextStyle(color: Colors.white, fontSize: 20),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
                   ),
                 ),
                 Padding(
@@ -38,17 +43,17 @@ class _InitialScreenState extends State<InitialScreen> {
                       Expanded(
                         child: LinearProgressIndicator(
                           value: (taskInherited.totalLevel > 0)
-                              ? (taskInherited.totalLevel / 1000)
+                              ? (taskInherited.totalLevel / 100)
                               : 1,
                           color: Colors.white,
                         ),
                       ),
                       const SizedBox(width: 10.0),
                       Text(
-                        "Level: ${taskInherited.totalLevel}",
+                        "Level: ${taskInherited.totalLevel.toStringAsFixed(2)}",
                         style: const TextStyle(color: Colors.white),
                       ),
-                      const SizedBox(width: 10.0),
+                      // const SizedBox(width: 10.0),
                       IconButton(
                           onPressed: () {
                             setState(() {
