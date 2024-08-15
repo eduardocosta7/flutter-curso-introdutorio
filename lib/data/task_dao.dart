@@ -1,3 +1,6 @@
+import 'package:curso_flutter_introducao/data/database.dart';
+import 'package:sqflite/sqflite.dart';
+
 import '../components/task.dart';
 
 class TaskDao {
@@ -6,22 +9,73 @@ class TaskDao {
       '$_difficulty INTEGER'
       '$_image TEXT)';
 
-  static const String _tablename = 'taskTable';
+  static const String _tablename = 'task_table';
   static const String _name = 'name';
   static const String _difficulty = 'difficulty';
   static const String _image = 'image';
 
-  save(Task tarefa) async {
-
+  save(Task task) async {
+    final Database database = await getDatabase();
+    var itemExists = await find(task.name);
+    Map<String, dynamic> taskMap = toMap(task);
+    if (itemExists.isEmpty) {
+      return await database.insert(
+        _tablename,
+        taskMap,
+      );
+    } else {
+      return await database.update(
+        _tablename,
+        taskMap,
+        where: '$_name = ?',
+        whereArgs: [task.name],
+      );
+    }
   }
 
-  Future<List<Task>>findAll() async {
+  Future<List<Task>> findAll() async {
+    final Database database = await getDatabase();
+    final List<Map<String, dynamic>> result = await database.query(_tablename);
+    return toList(result);
   }
 
-  Future<List<Task>>find(String nomeDaTarefa) async {
+  Future<List<Task>> find(String taskName) async {
+    final Database database = await getDatabase();
+    final List<Map<String, dynamic>> result = await database.query(
+      _tablename,
+      where: '$_name = ?',
+      whereArgs: [taskName],
+    );
+    return toList(result);
   }
 
-  delete(String nomeDaTarefa) async {
+  delete(String taskName) async {
+    final Database database = await getDatabase();
+    database.delete(
+      _tablename,
+      where: '$_name = ?',
+      whereArgs: [taskName],
+    );
+  }
 
+  List<Task> toList(List<Map<String, dynamic>> taskMap) {
+    final List<Task> tasks = [];
+    for (Map<String, dynamic> line in taskMap) {
+      final Task task = Task(
+        line[_name],
+        line[_image],
+        line[_difficulty],
+      );
+      tasks.add(task);
+    }
+    return tasks;
+  }
+
+  Map<String, dynamic> toMap(Task task) {
+    final Map<String, dynamic> taskMap = {};
+    taskMap[_name] = task.name;
+    taskMap[_difficulty] = task.difficulty;
+    taskMap[_image] = task.photo;
+    return taskMap;
   }
 }
