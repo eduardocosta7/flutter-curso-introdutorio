@@ -1,4 +1,5 @@
-import 'package:curso_flutter_introducao/data/task_inherited.dart';
+import 'package:curso_flutter_introducao/components/task.dart';
+import 'package:curso_flutter_introducao/data/task_dao.dart';
 import 'package:flutter/material.dart';
 
 class FormScreen extends StatefulWidget {
@@ -124,10 +125,14 @@ class _FormScreenState extends State<FormScreen> {
                   ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        TaskInherited.of(widget.taskContext).newTask(
+                        TaskDao().save(Task(
                             nameController.text,
                             photoController.text,
-                            int.parse(difficultyController.text));
+                            int.parse(difficultyController.text)));
+                        // TaskInherited.of(widget.taskContext).newTask(
+                        //     nameController.text,
+                        //     photoController.text,
+                        //     int.parse(difficultyController.text));
                         ScaffoldMessenger.maybeOf(context)?.showSnackBar(
                           const SnackBar(
                             content: Text('Criando uma nova tarefa'),
@@ -149,18 +154,18 @@ class _FormScreenState extends State<FormScreen> {
 
   bool difficultyValidador(String? value) {
     if (value != null && value.isNotEmpty) {
-      if (int.parse(value) > 1 && int.parse(value) < 5) {
-        return true;
+      if (int.parse(value) >= 1 && int.parse(value) < 5) {
+        return false;
       }
-      return false;
+      return true;
     }
-    return false;
+    return true;
   }
 
   bool valueValidator(String? value) {
     if (value != null && value.isNotEmpty) {
-      return true;
+      return false;
     }
-    return false;
+    return true;
   }
 }
