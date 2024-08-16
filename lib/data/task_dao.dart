@@ -4,7 +4,7 @@ import 'package:sqflite/sqflite.dart';
 import '../components/task.dart';
 
 class TaskDao {
-  static const String tableSql = 'CREATE TABLE IF NOT EXIST $_tablename('
+  static const String tableSql = 'CREATE TABLE $_tablename('
       '$_name TEXT'
       '$_difficulty INTEGER'
       '$_image TEXT)';

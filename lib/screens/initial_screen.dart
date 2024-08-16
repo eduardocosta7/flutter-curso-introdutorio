@@ -2,6 +2,9 @@ import 'package:curso_flutter_introducao/data/task_inherited.dart';
 import 'package:curso_flutter_introducao/screens/form_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../components/task.dart';
+import '../data/task_dao.dart';
+
 class InitialScreen extends StatefulWidget {
   const InitialScreen({super.key});
 
@@ -70,9 +73,71 @@ class _InitialScreenState extends State<InitialScreen> {
           backgroundColor: Colors.blue,
         ),
       ),
-      body: ListView(
+      body: Padding(
         padding: const EdgeInsets.only(top: 8, bottom: 70),
-        children: taskInherited.taskList,
+        child: FutureBuilder<List<Task>>(
+          future: TaskDao().findAll(),
+          builder: (context, snapshot) {
+            List<Task>? items = snapshot.data;
+            switch (snapshot.connectionState) {
+              case ConnectionState.none:
+                return const Center(
+                  child: Column(
+                    children: [
+                      CircularProgressIndicator(),
+                      Text('Carregando...')
+                    ],
+                  ),
+                );
+              case ConnectionState.waiting:
+                return const Center(
+                  child: Column(
+                    children: [
+                      CircularProgressIndicator(),
+                      Text('Carregando...')
+                    ],
+                  ),
+                );
+              case ConnectionState.active:
+                return const Center(
+                  child: Column(
+                    children: [
+                      CircularProgressIndicator(),
+                      Text('Carregando...')
+                    ],
+                  ),
+                );
+              case ConnectionState.done:
+                if (snapshot.hasData && items != null) {
+                  if (items.isNotEmpty) {
+                    return ListView.builder(
+                        itemCount: items.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          final Task task = items[index];
+                          return task;
+                        });
+                  }
+                  return const Center(
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.error_outline,
+                          size: 128,
+                        ),
+                        Text(
+                          'Não há nenhuma tarefa',
+                          style: TextStyle(fontSize: 32),
+                        )
+                      ],
+                    ),
+                  );
+                } else {
+                  return const Text('Erro ao carregar Tarefas');
+                }
+            }
+            return const Text('Erro ao carregar Tarefas');
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
