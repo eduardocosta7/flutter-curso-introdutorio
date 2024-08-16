@@ -146,7 +146,11 @@ class _InitialScreenState extends State<InitialScreen> {
             MaterialPageRoute(
               builder: (contextNew) => FormScreen(taskContext: context),
             ),
-          );
+          ).then((value) => () {
+            setState(() {
+              print('atualizando');
+            });
+          });
         },
         child: const Icon(Icons.add),
       ),

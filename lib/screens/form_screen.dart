@@ -154,7 +154,7 @@ class _FormScreenState extends State<FormScreen> {
 
   bool difficultyValidador(String? value) {
     if (value != null && value.isNotEmpty) {
-      if (int.parse(value) >= 1 && int.parse(value) < 5) {
+      if (int.parse(value) >= 1 && int.parse(value) <= 5) {
         return false;
       }
       return true;
