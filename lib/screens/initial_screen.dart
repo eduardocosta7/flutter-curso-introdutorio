@@ -22,6 +22,16 @@ class _InitialScreenState extends State<InitialScreen> {
         preferredSize: const Size.fromHeight(100.0),
         child: AppBar(
           // leading: Container(),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  setState(() {});
+                },
+                icon: const Icon(
+                  Icons.refresh,
+                  color: Colors.white,
+                )),
+          ],
           flexibleSpace: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -146,9 +156,10 @@ class _InitialScreenState extends State<InitialScreen> {
             MaterialPageRoute(
               builder: (contextNew) => FormScreen(taskContext: context),
             ),
-          ).then((value) => () {
+          ).then((value) {
             setState(() {
-              print('atualizando');
+              print(
+                  "Recarregando tela inicial!");
             });
           });
         },
