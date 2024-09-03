@@ -14,9 +14,22 @@ class InitialScreen extends StatefulWidget {
 
 class _InitialScreenState extends State<InitialScreen> {
   late TaskInherited taskInherited = TaskInherited.of(context);
+  Future<List<Task>>? lista;
+
+  @override
+  void initState() {
+    super.initState();
+    lista = fetchTasks();
+  }
+
+  Future<List<Task>> fetchTasks() async {
+    return await TaskDao().findAll();
+  }
 
   @override
   Widget build(BuildContext context) {
+    // Future<List<Task>> lista = TaskDao().findAll();
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(100.0),
@@ -25,7 +38,9 @@ class _InitialScreenState extends State<InitialScreen> {
           actions: [
             IconButton(
                 onPressed: () {
-                  setState(() {});
+                  setState(() {
+                    lista = fetchTasks();
+                  });
                 },
                 icon: const Icon(
                   Icons.refresh,
@@ -86,7 +101,8 @@ class _InitialScreenState extends State<InitialScreen> {
       body: Padding(
         padding: const EdgeInsets.only(top: 8, bottom: 70),
         child: FutureBuilder<List<Task>>(
-          future: TaskDao().findAll(),
+          // future: TaskDao().findAll(),
+          future: lista,
           builder: (context, snapshot) {
             List<Task>? items = snapshot.data;
             switch (snapshot.connectionState) {
@@ -145,7 +161,6 @@ class _InitialScreenState extends State<InitialScreen> {
                   return const Text('Erro ao carregar Tarefas');
                 }
             }
-            return const Text('Erro ao carregar Tarefas');
           },
         ),
       ),
@@ -157,10 +172,11 @@ class _InitialScreenState extends State<InitialScreen> {
               builder: (contextNew) => FormScreen(taskContext: context),
             ),
           ).then((value) {
-            setState(() {
-              print(
-                  "Recarregando tela inicial!");
-            });
+            if (value == true) {
+              setState(() {
+                lista = fetchTasks();
+              });
+            }
           });
         },
         child: const Icon(Icons.add),

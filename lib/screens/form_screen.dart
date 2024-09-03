@@ -123,12 +123,16 @@ class _FormScreenState extends State<FormScreen> {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        TaskDao().save(Task(
-                            nameController.text,
-                            photoController.text,
-                            int.parse(difficultyController.text)));
+                        Task task = Task(
+                          nameController.text,
+                          photoController.text,
+                          int.parse(difficultyController.text),
+                          0,
+                          1,
+                        );
+                        await TaskDao().save(task);
                         // TaskInherited.of(widget.taskContext).newTask(
                         //     nameController.text,
                         //     photoController.text,
@@ -138,7 +142,7 @@ class _FormScreenState extends State<FormScreen> {
                             content: Text('Criando uma nova tarefa'),
                           ),
                         );
-                        Navigator.pop(context);
+                          Navigator.pop(context, true);
                       }
                     },
                     child: const Text('Adicionar!'),

@@ -9,10 +9,10 @@ class Task extends StatefulWidget {
   final String name;
   final String photo;
   int difficulty;
+  int level;
+  int progress;
 
-  Task(this.name, this.photo, this.difficulty, {super.key});
-
-  int level = 0;
+  Task(this.name, this.photo, this.difficulty, this.level, this.progress, {super.key});
 
   @override
   State<Task> createState() => _TaskState();
@@ -89,17 +89,21 @@ class _TaskState extends State<Task> {
                       width: 64,
                       height: 64,
                       child: ElevatedButton(
-                        onLongPress: () {
-                          TaskDao().delete(widget.name);
-                        },
+                          onLongPress: () {
+                            showDialog(
+                              context: context,
+                              builder: (_) => deleteDialog(),
+                              barrierDismissible: false,
+                            );
+                          },
                           onPressed: () {
                             setState(() {
                               widget.level++;
-                              if (widget.level >= widget.difficulty) {
-                                widget.difficulty = widget.difficulty * 3;
+                              TaskDao().updateLevel(widget);
+                              if (widget.level >= widget.progress) {
+                                widget.progress = widget.progress * widget.difficulty;
                                 color =
-                                    Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
-                                    .withOpacity(1.0);
+                                    Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
                               }
                             });
                           },
@@ -126,8 +130,8 @@ class _TaskState extends State<Task> {
                     child: SizedBox(
                       width: 200,
                       child: LinearProgressIndicator(
-                        value: (widget.difficulty > 0)
-                            ? (widget.level / widget.difficulty)
+                        value: (widget.progress > 0)
+                            ? (widget.level / widget.progress)
                             : 1,
                         color: Colors.white,
                       ),
@@ -145,6 +149,31 @@ class _TaskState extends State<Task> {
           )
         ],
       ),
+    );
+  }
+
+  AlertDialog deleteDialog() {
+    return AlertDialog(
+      title: const Text('Deleter item'),
+      content: Text('Tem certeza que deseja deletar ${widget.name}?'),
+      actions: [
+        TextButton(
+          child: const Text('Sim'),
+          onPressed: () async {
+            await TaskDao().delete(widget.name);
+            setState(() {
+              Navigator.pop(context, true);
+            });
+          },
+        ),
+        TextButton(
+          child: const Text('Não'),
+          onPressed: () {
+            Navigator.pop(context, false);
+          },
+        )
+      ],
+      elevation: 24,
     );
   }
 }
