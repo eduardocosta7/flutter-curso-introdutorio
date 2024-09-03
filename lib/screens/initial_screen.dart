@@ -1,9 +1,11 @@
+import 'package:curso_flutter_introducao/data/bloc/task_state.dart';
 import 'package:curso_flutter_introducao/data/task_inherited.dart';
 import 'package:curso_flutter_introducao/screens/form_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../components/task.dart';
-import '../data/task_dao.dart';
+import '../data/bloc/task_bloc.dart';
+import '../data/bloc/task_event.dart';
 
 class InitialScreen extends StatefulWidget {
   const InitialScreen({super.key});
@@ -13,23 +15,25 @@ class InitialScreen extends StatefulWidget {
 }
 
 class _InitialScreenState extends State<InitialScreen> {
-  late TaskInherited taskInherited = TaskInherited.of(context);
-  Future<List<Task>>? lista;
+  late final TaskBloc _taskBloc;
+  late TaskInherited taskInherited;
+  List<Task> lista = [];
 
   @override
   void initState() {
     super.initState();
-    lista = fetchTasks();
+    _taskBloc = TaskBloc();
+    _taskBloc.inputTask.add(GetTask());
   }
 
-  Future<List<Task>> fetchTasks() async {
-    return await TaskDao().findAll();
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    taskInherited = TaskInherited.of(context);
   }
 
   @override
   Widget build(BuildContext context) {
-    // Future<List<Task>> lista = TaskDao().findAll();
-
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(100.0),
@@ -39,7 +43,7 @@ class _InitialScreenState extends State<InitialScreen> {
             IconButton(
                 onPressed: () {
                   setState(() {
-                    lista = fetchTasks();
+                    // lista = fetchTasks();
                   });
                 },
                 icon: const Icon(
@@ -100,66 +104,38 @@ class _InitialScreenState extends State<InitialScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 8, bottom: 70),
-        child: FutureBuilder<List<Task>>(
-          // future: TaskDao().findAll(),
-          future: lista,
-          builder: (context, snapshot) {
-            List<Task>? items = snapshot.data;
-            switch (snapshot.connectionState) {
-              case ConnectionState.none:
-                return const Center(
-                  child: Column(
-                    children: [
-                      CircularProgressIndicator(),
-                      Text('Carregando...')
-                    ],
-                  ),
-                );
-              case ConnectionState.waiting:
-                return const Center(
-                  child: Column(
-                    children: [
-                      CircularProgressIndicator(),
-                      Text('Carregando...')
-                    ],
-                  ),
-                );
-              case ConnectionState.active:
-                return const Center(
-                  child: Column(
-                    children: [
-                      CircularProgressIndicator(),
-                      Text('Carregando...')
-                    ],
-                  ),
-                );
-              case ConnectionState.done:
-                if (snapshot.hasData && items != null) {
-                  if (items.isNotEmpty) {
-                    return ListView.builder(
-                        itemCount: items.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          final Task task = items[index];
-                          return task;
-                        });
-                  }
-                  return const Center(
-                    child: Column(
-                      children: [
-                        Icon(
-                          Icons.error_outline,
-                          size: 128,
-                        ),
-                        Text(
-                          'Não há nenhuma tarefa',
-                          style: TextStyle(fontSize: 32),
-                        )
-                      ],
+        child: StreamBuilder<TaskState>(
+          stream: _taskBloc.outputTask,
+          builder: (context, state) {
+            if (state is TaskLoadingState) {
+              return const Center(
+                child: Column(
+                  children: [
+                    CircularProgressIndicator(),
+                    Text('Carregando...')
+                  ],
+                ),
+              );
+            } else if (state.data is TaskLoadedState) {
+              final list = state.data?.tasks ?? [];
+              return ListView(
+                children: list,
+              );
+            } else {
+              return const Center(
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons.error_outline,
+                      size: 128,
                     ),
-                  );
-                } else {
-                  return const Text('Erro ao carregar Tarefas');
-                }
+                    Text(
+                      'Não há nenhuma tarefa',
+                      style: TextStyle(fontSize: 32),
+                    )
+                  ],
+                ),
+              );
             }
           },
         ),
@@ -174,7 +150,7 @@ class _InitialScreenState extends State<InitialScreen> {
           ).then((value) {
             if (value == true) {
               setState(() {
-                lista = fetchTasks();
+                // lista = fetchTasks();
               });
             }
           });
