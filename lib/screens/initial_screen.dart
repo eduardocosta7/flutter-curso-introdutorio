@@ -35,9 +35,11 @@ class _InitialScreenState extends State<InitialScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(100.0),
-        child: AppBar(
+      appBar:
+      // PreferredSize(
+      //   preferredSize: const Size.fromHeight(100.0),
+      //   child:
+        AppBar(
           // leading: Container(),
           actions: [
             IconButton(
@@ -51,11 +53,11 @@ class _InitialScreenState extends State<InitialScreen> {
                   color: Colors.white,
                 )),
           ],
-          flexibleSpace: Column(
+          flexibleSpace: const Column(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Padding(
+                Padding(
                   padding: EdgeInsets.only(
                     left: 50.0,
                   ),
@@ -68,40 +70,40 @@ class _InitialScreenState extends State<InitialScreen> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(
+                  padding: EdgeInsets.symmetric(
                       horizontal: 50.0, vertical: 4.0),
-                  child: Row(
-                    children: [
-                      const Expanded(
-                        child: LinearProgressIndicator(
-                          value: 1,
-                          // (taskInherited.totalLevel > 0)
-                          //     ? (taskInherited.totalLevel / 100)
-                          //     : 1,
-                          color: Colors.white,
-                        ),
-                      ),
-                      const SizedBox(width: 10.0),
-                      const Text(
-                        // "Level: ${taskInherited.totalLevel.toStringAsFixed(2)}",
-                        "Level: 1",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      // const SizedBox(width: 10.0),
-                      IconButton(
-                          onPressed: () {
-                              // _taskBloc.inputTask.add(PostTask(task: task));
-                          },
-                          icon: const Icon(Icons.add_circle_outline),
-                          color: Colors.white),
-                    ],
-                  ),
+                  // child: Row(
+                  //   children: [
+                  //     const Expanded(
+                  //       child: LinearProgressIndicator(
+                  //         value: 1,
+                  //         // (taskInherited.totalLevel > 0)
+                  //         //     ? (taskInherited.totalLevel / 100)
+                  //         //     : 1,
+                  //         color: Colors.white,
+                  //       ),
+                  //     ),
+                  //     const SizedBox(width: 10.0),
+                  //     const Text(
+                  //       // "Level: ${taskInherited.totalLevel.toStringAsFixed(2)}",
+                  //       "Level: 1",
+                  //       style: TextStyle(color: Colors.white),
+                  //     ),
+                  //     // const SizedBox(width: 10.0),
+                  //     IconButton(
+                  //         onPressed: () {
+                  //             // _taskBloc.inputTask.add(PostTask(task: task));
+                  //         },
+                  //         icon: const Icon(Icons.add_circle_outline),
+                  //         color: Colors.white),
+                  //   ],
+                  // ),
                 ),
               ]),
           automaticallyImplyLeading: false,
           backgroundColor: Colors.blue,
         ),
-      ),
+      // ),
       body: Padding(
         padding: const EdgeInsets.only(top: 8, bottom: 70),
         child: StreamBuilder<TaskState>(
