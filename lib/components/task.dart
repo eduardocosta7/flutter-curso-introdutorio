@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:curso_flutter_introducao/data/task_dao.dart';
+import 'package:curso_flutter_introducao/screens/initial_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'difficult.dart';
@@ -12,7 +13,9 @@ class Task extends StatefulWidget {
   int level;
   int progress;
 
-  Task(this.name, this.photo, this.difficulty, this.level, this.progress, {super.key});
+  final Function? callback;
+
+  Task(this.name, this.photo, this.difficulty, this.level, this.progress, this.callback, {super.key});
 
   @override
   State<Task> createState() => _TaskState();
@@ -94,7 +97,12 @@ class _TaskState extends State<Task> {
                               context: context,
                               builder: (_) => deleteDialog(),
                               barrierDismissible: false,
-                            );
+                            ).then((onValue) {
+                              if (onValue == true) {
+                                widget.callback!();
+                                // context.read<TaskBloc>().inputTask.add(DeleteTask(taskId));
+                              }
+                            });
                           },
                           onPressed: () {
                             setState(() {

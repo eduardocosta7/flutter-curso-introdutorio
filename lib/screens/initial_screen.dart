@@ -1,9 +1,7 @@
 import 'package:curso_flutter_introducao/data/bloc/task_state.dart';
-import 'package:curso_flutter_introducao/data/task_inherited.dart';
 import 'package:curso_flutter_introducao/screens/form_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../components/task.dart';
 import '../data/bloc/task_bloc.dart';
 import '../data/bloc/task_event.dart';
 
@@ -16,20 +14,22 @@ class InitialScreen extends StatefulWidget {
 
 class _InitialScreenState extends State<InitialScreen> {
   late final TaskBloc _taskBloc;
-  late TaskInherited taskInherited;
-  List<Task> lista = [];
 
   @override
   void initState() {
     super.initState();
-    _taskBloc = TaskBloc();
+    _taskBloc = TaskBloc(() => onUpdate());
     _taskBloc.inputTask.add(GetTask());
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    taskInherited = TaskInherited.of(context);
+  void dispose() {
+    _taskBloc.inputTask.close();
+    super.dispose();
+  }
+
+  void onUpdate() {
+    _taskBloc.inputTask.add(GetTask());
   }
 
   @override
@@ -43,7 +43,7 @@ class _InitialScreenState extends State<InitialScreen> {
             IconButton(
                 onPressed: () {
                   setState(() {
-                    // lista = fetchTasks();
+                    _taskBloc.inputTask.add(GetTask());
                   });
                 },
                 icon: const Icon(
@@ -72,25 +72,25 @@ class _InitialScreenState extends State<InitialScreen> {
                       horizontal: 50.0, vertical: 4.0),
                   child: Row(
                     children: [
-                      Expanded(
+                      const Expanded(
                         child: LinearProgressIndicator(
-                          value: (taskInherited.totalLevel > 0)
-                              ? (taskInherited.totalLevel / 100)
-                              : 1,
+                          value: 1,
+                          // (taskInherited.totalLevel > 0)
+                          //     ? (taskInherited.totalLevel / 100)
+                          //     : 1,
                           color: Colors.white,
                         ),
                       ),
                       const SizedBox(width: 10.0),
-                      Text(
-                        "Level: ${taskInherited.totalLevel.toStringAsFixed(2)}",
-                        style: const TextStyle(color: Colors.white),
+                      const Text(
+                        // "Level: ${taskInherited.totalLevel.toStringAsFixed(2)}",
+                        "Level: 1",
+                        style: TextStyle(color: Colors.white),
                       ),
                       // const SizedBox(width: 10.0),
                       IconButton(
                           onPressed: () {
-                            setState(() {
-                              taskInherited.upTotalLevel();
-                            });
+                              // _taskBloc.inputTask.add(PostTask(task: task));
                           },
                           icon: const Icon(Icons.add_circle_outline),
                           color: Colors.white),
@@ -148,11 +148,7 @@ class _InitialScreenState extends State<InitialScreen> {
               builder: (contextNew) => FormScreen(taskContext: context),
             ),
           ).then((value) {
-            if (value == true) {
-              setState(() {
-                // lista = fetchTasks();
-              });
-            }
+                _taskBloc.inputTask.add(GetTask());
           });
         },
         child: const Icon(Icons.add),

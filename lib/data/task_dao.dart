@@ -1,9 +1,14 @@
 import 'package:curso_flutter_introducao/data/database.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../components/task.dart';
 
 class TaskDao {
+  final Function? callback;
+
+  TaskDao({this.callback});
+
   static const String tableSql = 'CREATE TABLE $_tablename('
       '$_name TEXT,'
       '$_difficulty INTEGER,'
@@ -77,7 +82,7 @@ class TaskDao {
     final List<Task> tasks = [];
     for (Map<String, dynamic> line in taskMap) {
       final Task task =
-          Task(line[_name], line[_image], line[_difficulty], line[_level], line[_progress]);
+          Task(line[_name], line[_image], line[_difficulty], line[_level], line[_progress], callback);
       tasks.add(task);
     }
     return tasks;

@@ -7,7 +7,8 @@ import 'package:curso_flutter_introducao/data/task_dao.dart';
 import '../../components/task.dart';
 
 class TaskBloc {
-  final _repository = TaskDao();
+  final Function onCallback;
+  late final _repository = TaskDao(callback: onCallback);
 
   final StreamController<TaskEvent> _inputTaskController =
       StreamController<TaskEvent>();
@@ -18,7 +19,7 @@ class TaskBloc {
 
   Stream<TaskState> get outputTask => _outputTaskController.stream;
 
-  TaskBloc() {
+  TaskBloc(this.onCallback) {
     _inputTaskController.stream.listen(_mapEventToState);
   }
 

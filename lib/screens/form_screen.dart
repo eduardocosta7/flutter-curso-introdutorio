@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:curso_flutter_introducao/components/task.dart';
 import 'package:curso_flutter_introducao/data/task_dao.dart';
 import 'package:flutter/material.dart';
@@ -131,6 +133,7 @@ class _FormScreenState extends State<FormScreen> {
                           int.parse(difficultyController.text),
                           0,
                           1,
+                                () {},
                         );
                         await TaskDao().save(task);
                         // TaskInherited.of(widget.taskContext).newTask(
